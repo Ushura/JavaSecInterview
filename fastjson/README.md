@@ -26,7 +26,7 @@
 
 ### 谈谈常见的几种Payload（★★★）
 
-首先是最常见的`JdbcRowSetImpl`利用`JDNI`注入方式触发，需要出网
+首先是最常见的`JdbcRowSetImpl`利用`JNDI`注入方式触发，需要出网
 
 利用`TemplatesImpl`类比较鸡肋，需要服务端开启特殊参数
 
