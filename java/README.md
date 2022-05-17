@@ -287,3 +287,9 @@ jdbc:mysql://attacker/db?queryInterceptors=com.mysql.cj.jdbc.interceptors.Server
 ### 双亲委派主要作用是什么（★★）
 
 最主要的作用是保证系统类的安全，基础类不会被自定义类加载器破坏和篡改，其次防止重复加载可以提高效率
+
+
+
+### RASP如何绕过（★★）
+
+使用`JNI`是比较通用的办法，具体到每一种漏洞类型，也会有其他的绕过方式（参数污染，特殊字符等等）
