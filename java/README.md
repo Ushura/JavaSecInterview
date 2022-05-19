@@ -293,3 +293,33 @@ jdbc:mysql://attacker/db?queryInterceptors=com.mysql.cj.jdbc.interceptors.Server
 ### RASP如何绕过（★★）
 
 使用`JNI`是比较通用的办法，具体到每一种漏洞类型，也会有其他的绕过方式（参数污染，特殊字符等等）
+
+
+
+### 简单谈一谈SecurityManager是干什么的（★★★）
+
+`Java Security Manager`的一个典型应用场景是`JVM`需要加载运行一段代码，但是这段代码是不可信的
+
+例如来自用户的输入上传和反序列化指定的`bytecode`或者使用`URLClassLoader`在网络中远程加载等
+
+这些情况下，需要防止不可信来源的恶意代码对系统造成破坏。其实这就是沙箱的应用场景
+
+
+
+### 谈一谈SecurityManager的绕过姿势（★★★★）
+
+（1）单等号`+home`目录可写导致`Java Security Manager`绕过
+
+例如这样指定`policy`文件：`-Djava.security.policy=java.policy`
+
+（2）通过`setSecurityManager`绕过`Java Security Manager`
+
+恶意代码可以在运行时调用`setSecurityManager`方法将`SecurityManager`置为`null`以绕过
+
+（3）通过反射绕过`Java Security Manager`
+
+反射调用`getProtectionDomain0`方法将所有`hasAllPerm`属性设置为`true`
+
+（4）自定义类加载器绕过
+
+（5）通过`JNI`调用`native`方法绕过
