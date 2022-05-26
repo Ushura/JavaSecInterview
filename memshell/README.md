@@ -42,11 +42,11 @@ Java Agent内存马：这种方式不仅限于`Tomcat`或`Spring`
 
 ### 内存马如何持久化（★★★）
 
-内存马持久化这个问题必须要往本地写文件
+内存马持久化这个问题必须要往本地写文件，可以利用`addShutDownHook`方法在`JVM`退出时写文件
 
-一般来说可以往Tomcat里写字节码或者直接改写依赖的Jar，在`doFilter`等位置插入恶意字节码
+一般来说思路是写入依赖`Jar`中，例如`catalina.jar`中
 
-4ra1n师傅提到的修改Tomcat的Lib也是一种手段，在默认开启的`WsFilter`中修改代码
+4ra1n师傅提到的修改Tomcat的Lib也是一种手段，在默认开启的`WsFilter`中的`doFilter`方法中修改代码
 
 
 

@@ -129,3 +129,16 @@ spring.cloud.function.routing-expression: SPEL
 ### 谈谈Spring RCE的修复（★★★）
 
 当`beanClass`为`Class`时只允许参数名为`name`并以`Name`结尾且属性返回类型不能为`Classloader`及`Classloader`子类
+
+
+
+### SpringBoot如果有任意文件写入如何RCE（★★★★）
+
+由于`SpringBoot`是`FarJar`形式的一个`Jar`包，因此无法在其运行的时候往`classpath`中增加文件，另外`SpringBoot`的应用通常不解析`JSP`等模板文件，所以传统的上传`webshell`以`RCE`的思路是无效的
+
+思路是覆盖了`JAVA_HOME`中没有被加载的系统`Jar`文件，例如`charsets.jar`文件，然后想办法在运行中加载该`jar`文件
+
+难点在于可控的主动类初始化，主要的两种实际利用是：
+
+- 利用`Accept: text/html;charset=GBK`请求头触发`Spring`中的`Charset.forName`方法
+- 使用`Fastjson`的`1.2.76`版本通过普通的`JSON`即可触发`Charset.forName`方法
